@@ -9,7 +9,7 @@ Neovimが好きなソフトウェアエンジニア
 ここには覚えておきたいことを雑に書き出します。  
 駄文注意!
 
-![hat0uma](./public/hat0uma-og.png)
+![hat0uma](/hat0uma-og.png)
 
 ## つくったもの
 
