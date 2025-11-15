@@ -3,21 +3,37 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+/* https://catppuccin.com/palette/ */
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  /* --background: #eff1f5; */
+  /* --background: #dce0e8; */
+  --background: #e6e9ef;
+  --foreground: #4c4f69;
+  /* --accent: #1e66f5; */
+  /* --accent: #8839ef; */
+  /* --accent: #40a02b; */
+  /* --accent: #d20f39; */
+  /* --accent: #fe640b; */
+  /* --accent: #179299; */
+  --accent: #7287fd;
+  --muted: #ccd0da;
+  --border: #acb0be;
 }
 
+/* --- Catppuccin Frappé (Dark) --- */
 html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
+  /* --background: #303446; */
+  /* --background: #292c3c; */
+  --background: #232634;
+  --foreground: #c6d0f5;
+  /* --accent: #f8a19f; */
+  /* --accent: #ca9ee6; */
+  /* --accent: #a6d189; */
+  /* --accent: #e78284; */
+  --accent: #8caaee;
+  --muted: #414559;
+  --border: #626880;
 }
 
 @theme inline {
@@ -34,20 +50,25 @@ html[data-theme="dark"] {
     scrollbar-width: auto;
     scrollbar-color: var(--color-muted) transparent;
   }
+
   html {
     @apply overflow-y-scroll scroll-smooth;
   }
+
   body {
     @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
   }
+
   a,
   button {
     @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
   }
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
   section,
   footer {
     @apply mx-auto max-w-app px-4;
