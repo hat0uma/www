@@ -4,8 +4,33 @@ import { SOCIALS } from "@/constants";
 import { Image } from "astro:assets";
 import { SITE } from "@/config";
 import LinkButton from "./LinkButton.astro";
+import path from "path";
 
-const iconURL = new URL(`/${SITE.icon}`, Astro.url);
+// https://github.com/withastro/astro/issues/3373
+function importPublicImage(file: string) {
+  const filename = path.parse(file);
+  const name = filename.name;
+  const ext = filename.ext;
+  switch (ext) {
+    case ".webp":
+      return import(`../../public/${name}.webp`);
+    case ".jpg":
+      return import(`../../public/${name}.jpg`);
+    case ".png":
+      return import(`../../public/${name}.png`);
+    case ".svg":
+      return import(`../../public/${name}.svg`);
+    case ".gif":
+      return import(`../../public/${name}.gif`);
+    case ".avif":
+      return import(`../../public/${name}.avif`);
+    case ".jpeg":
+      return import(`../../public/${name}.jpeg`);
+    default:
+      throw new Error(`Failed to detect the image extensions. name: ${file}`);
+  }
+}
+const icon = importPublicImage(SITE.icon);
 ---
 
 <div
@@ -17,8 +42,7 @@ const iconURL = new URL(`/${SITE.icon}`, Astro.url);
     class="focus-outline flex hover:text-foreground/75"
   >
     <Image
-      inferSize={true}
-      src={iconURL.href}
+      src={icon}
       alt={SITE.author}
       class="aspect-auto w-32 flex-shrink-0"
     />
