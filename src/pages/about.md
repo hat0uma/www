@@ -3,35 +3,26 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, accessible and SEO-friendly blog theme built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
+Neovimが好きなソフトウェアエンジニア  
+セキュリティやゲーム開発等にも興味あります。
 
-![Astro Paper](public/astropaper-og.jpg)
+ここには覚えておきたいことを雑に書き出します。  
+駄文注意!
 
-AstroPaper provides a solid foundation for blogs, or even portfolios\_ with full markdown support, built-in dark mode, and a clean layout that works out-of-the-box.
+![hat0uma](./public/hat0uma-og.png)
 
-The blog posts in this theme also serve as guides, docs or example articles\_ making AstroPaper a flexible starting point for your next content-driven site.
+## つくったもの
 
-## Features
+### Neovimプラグイン
 
-AstroPaper comes with a set of useful features that make content publishing easy and effective:
+- [csvview.nvim](https://github.com/hat0uma/csvview.nvim)
+- [prelive.nvim](https://github.com/hat0uma/prelive.nvim)
+- [doxygen-previewer.nvim](https://github.com/hat0uma/doxygen-previewer.nvim)
 
-- SEO-friendly
-- Fast performance
-- Light & dark mode
-- Highly customizable
-- Organizable blog posts
-- Responsive & accessible
-- Static search with [PageFind](https://pagefind.app/)
-- Automatic social image generation
+### ゲーム
 
-and so much more.
+- [べーきんぐ(unityroom)](<https://unityroom.com/games/be_king>)
 
-## Show your support
+### その他
 
-If you like [AstroPaper](https://github.com/satnaing/astro-paper), consider giving it a star ⭐️.
-
-Found a bug 🐛 or have an improvement ✨ in mind? Feel free to open an [issue](https://github.com/satnaing/astro-paper/issues), submit a [pull request](https://github.com/satnaing/astro-paper/pulls) or start a [discussion](https://github.com/satnaing/astro-paper/discussions).
-
-If you find this theme helpful, you can also [sponsor me on GitHub](https://github.com/sponsors/satnaing) or [buy me a coffee](https://buymeacoffee.com/satnaing) to show your support — every penny counts.
-
-Kyay zuu! 🙏🏼
+- [dotfiles](https://github.com/hat0uma/dotfiles)

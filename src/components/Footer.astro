@@ -1,6 +1,7 @@
 ---
 import Hr from "./Hr.astro";
-import Socials from "./Socials.astro";
+import ProfileCard from "./ProfileCard.astro";
+import IconRss from "@/assets/icons/IconRss.svg";
 
 const currentYear = new Date().getFullYear();
 
@@ -13,10 +14,25 @@ const { noMarginTop = false } = Astro.props;
 
 <footer class:list={["w-full", { "mt-auto": !noMarginTop }]}>
   <Hr noPadding />
+  <ProfileCard />
+  <Hr noPadding />
   <div
     class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"
   >
-    <Socials centered />
+    <a
+      target="_blank"
+      href="/rss.xml"
+      class="inline-block"
+      aria-label="rss feed"
+      title="RSS Feed"
+    >
+      <IconRss
+        width="1rem"
+        height="1rem"
+        class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+      />
+      <span class="sr-only">RSS Feed</span>
+    </a>
     <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
       <span>Copyright &#169; {currentYear}</span>
       <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
