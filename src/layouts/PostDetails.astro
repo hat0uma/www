@@ -15,6 +15,12 @@ import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import { SITE } from "@/config";
 
+declare global {
+  interface DocumentEventMap {
+    "theme-changed": CustomEvent<{ theme: "dark" | "light" }>;
+  }
+}
+
 export interface Props {
   post: CollectionEntry<"blog">;
   posts: CollectionEntry<"blog">[];
@@ -234,7 +240,9 @@ const nextPost =
    * allowing users to copy code easily. */
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
-    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+    const codeBlocks = Array.from(
+      document.querySelectorAll("pre:not(.mermaid)")
+    );
 
     for (const codeBlock of codeBlocks) {
       const wrapper = document.createElement("div");
@@ -285,4 +293,36 @@ const nextPost =
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
+</script>
+
+<!-- mermaid diagram support -->
+<script>
+  import {
+    resetProcessedDiagrams,
+    saveMermaidCodes,
+    renderDiagrams,
+  } from "@/utils/mermaid";
+
+  const loadMermaidDiagrams = async (theme: "light" | "dark") => {
+    saveMermaidCodes();
+    resetProcessedDiagrams();
+    const dark = theme === "dark";
+    await renderDiagrams(dark ? "dark" : "default", dark);
+  };
+  document.addEventListener("theme-changed", async ev => {
+    const theme = ev.detail.theme;
+    await loadMermaidDiagrams(theme);
+  });
+  document.addEventListener("astro:page-load", async () => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      await loadMermaidDiagrams(storedTheme == "dark" ? "dark" : "light");
+    } else {
+      const preferedTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      await loadMermaidDiagrams(preferedTheme);
+    }
+  });
 </script>

@@ -1,0 +1,12 @@
+pre.mermaid {
+  display: flex;
+  justify-content: center;
+}
+
+pre.mermaid:not([data-processed="true"]) {
+  visibility: hidden;
+}
+
+pre.mermaid[data-processed="true"] {
+  visibility: visible;
+}
