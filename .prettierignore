@@ -2,7 +2,11 @@
 /*
 
 # Except these files & folders
-!/src
+!/src/**/*.ts
+!/src/**/*.tsx
+!/src/**/*.js
+!/src/**/*.jsx
+!/src/**/*.astro
 !/public
 !/.github
 !tsconfig.json
