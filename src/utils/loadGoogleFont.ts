@@ -1,3 +1,5 @@
+import type { FontStyle, FontWeight } from "satori";
+
 async function loadGoogleFont(
   font: string,
   text: string,
@@ -29,24 +31,41 @@ async function loadGoogleFont(
   return res.arrayBuffer();
 }
 
-async function loadGoogleFonts(
-  text: string
-): Promise<
-  Array<{ name: string; data: ArrayBuffer; weight: number; style: string }>
+async function loadGoogleFonts(text: string): Promise<
+  Array<{
+    name: string;
+    data: ArrayBuffer;
+    weight: FontWeight;
+    style?: FontStyle;
+  }>
 > {
   const fontsConfig = [
     {
-      name: "IBM Plex Mono",
-      font: "IBM+Plex+Mono",
-      weight: 400,
-      style: "normal",
+      name: "M PLUS 1p",
+      font: "M+PLUS+1p",
+      weight: 400 as const,
+      style: "normal" as const,
     },
     {
-      name: "IBM Plex Mono",
-      font: "IBM+Plex+Mono",
-      weight: 700,
-      style: "bold",
+      name: "M PLUS 1p",
+      font: "M+PLUS+1p",
+      weight: 700 as const,
     },
+    {
+      name: "Caveat",
+      font: "Caveat",
+      weight: 400 as const,
+    },
+    {
+      name: "Caveat",
+      font: "Caveat",
+      weight: 700 as const,
+    },
+    // {
+    //   name: "Montserrat",
+    //   font: "Montserrat",
+    //   weight: 900 as const,
+    // },
   ];
 
   const fonts = await Promise.all(

@@ -1,7 +1,6 @@
 import { Resvg } from "@resvg/resvg-js";
 import { type CollectionEntry } from "astro:content";
-import postOgImage from "./og-templates/post";
-import siteOgImage from "./og-templates/site";
+import { generatePostOgImage } from "./og-templates/post";
 
 function svgBufferToPngBuffer(svg: string) {
   const resvg = new Resvg(svg);
@@ -10,11 +9,6 @@ function svgBufferToPngBuffer(svg: string) {
 }
 
 export async function generateOgImageForPost(post: CollectionEntry<"blog">) {
-  const svg = await postOgImage(post);
-  return svgBufferToPngBuffer(svg);
-}
-
-export async function generateOgImageForSite() {
-  const svg = await siteOgImage();
+  const svg = await generatePostOgImage(post);
   return svgBufferToPngBuffer(svg);
 }
