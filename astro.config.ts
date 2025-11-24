@@ -26,12 +26,7 @@ export default defineConfig({
       excludeLangs: ["mermaid", "js"],
     },
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
-    rehypePlugins: [
-      [
-        rehypeMermaid,
-        { strategy: "pre-mermaid", mermaidConfig: { startOnLoad: false } },
-      ],
-    ],
+    rehypePlugins: [[rehypeMermaid, { strategy: "pre-mermaid" }]],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "catppuccin-latte", dark: "catppuccin-frappe" },
