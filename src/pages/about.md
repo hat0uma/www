@@ -21,7 +21,7 @@ Neovimが好きなソフトウェアエンジニア
 
 ### ゲーム
 
-- [べーきんぐ(unityroom)](<https://unityroom.com/games/be_king>)
+- [べーきんぐ(unityroom)](https://unityroom.com/games/be_king)
 
 ### その他
 
