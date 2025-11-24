@@ -6,7 +6,11 @@ import path from "node:path";
 import type React from "react";
 import satori from "satori";
 import { SITE } from "@/config";
-import loadGoogleFonts from "../loadGoogleFont";
+import loadGoogleFonts from "@/utils/loadGoogleFont";
+import { SegmentedText } from "@/utils/SegmentedText";
+
+const floorBy = (value: number, base: number) =>
+  Math.floor(value / base) * base;
 
 const loadImageAsBase64 = (relative: string) => {
   const filePath = path.join(process.cwd(), relative);
@@ -16,8 +20,14 @@ const loadImageAsBase64 = (relative: string) => {
 
 const iconBase64 = loadImageAsBase64("public/hat0uma-icon-rounded.png");
 
+const CONTAINER_WIDTH = 1200;
+const CONTAINER_HEIGHT = 630;
+const TITLE_FONT_SIZE = 68;
+const CONTAINER_PADDING = 24;
+const ELLIPSIS = "…";
+
 const palette = {
-  accent: "#a1b8d6", // Main Background
+  accent: "#a1b8d6",
   accent2: "#8aa6c8",
   text: "#4c4f69",
   bg0: "#f8f8f8",
@@ -31,7 +41,7 @@ const styles = {
     height: "100%",
     width: "100%",
     backgroundColor: palette.accent,
-    padding: "24px",
+    padding: `${CONTAINER_PADDING}px`,
   },
 
   container: {
@@ -49,35 +59,31 @@ const styles = {
   },
 
   title: {
-    fontSize: "68px",
-    fontWeight: "bold",
-    textAlign: "center",
-    color: palette.text,
-    lineHeight: 1.25,
-    width: "100%",
     boxSizing: "border-box",
-    // maxWidth: "100%",
+    color: palette.text,
+    display: "flex",
+    flexWrap: "wrap",
+    fontSize: TITLE_FONT_SIZE,
+    fontWeight: "bold",
+    justifyContent: "center",
+    lineHeight: 1.25,
     marginTop: "auto",
-
-    display: "block",
-    textOverflow: "ellipsis",
-    lineClamp: 2,
     overflow: "hidden",
+    textAlign: "center",
+    width: "100%",
   },
   tagContainer: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: "16px",
     fontSize: "28px",
-    marginTop: "32px",
+    gap: "16px",
     marginBottom: "auto",
     maxWidth: "70%",
   },
   tagItem: {
     display: "flex",
     alignItems: "center",
-    lineHeight: 1.5,
     fontSize: "32px",
     gap: "10px",
     backgroundColor: palette.bg1,
@@ -122,10 +128,18 @@ const IconTag = (
 );
 
 export async function generatePostOgImage(entry: CollectionEntry<"blog">) {
+  const titleLineWidth = floorBy(CONTAINER_WIDTH - CONTAINER_PADDING * 2, 40);
   const elements = (
     <div style={styles.root}>
       <div style={styles.container}>
-        <h1 style={styles.title}>{entry.data.title}</h1>
+        <SegmentedText
+          text={entry.data.title}
+          ellipsis={ELLIPSIS}
+          lineWidth={titleLineWidth}
+          fontSize={TITLE_FONT_SIZE}
+          maxLines={3}
+          style={styles.title}
+        />
         <div style={styles.tagContainer}>
           {entry.data.tags.map(tag => (
             <div style={styles.tagItem} key={tag}>
@@ -141,8 +155,8 @@ export async function generatePostOgImage(entry: CollectionEntry<"blog">) {
   );
 
   return satori(elements, {
-    width: 1200,
-    height: 630,
+    width: CONTAINER_WIDTH,
+    height: CONTAINER_HEIGHT,
     fonts: await loadGoogleFonts(
       [
         entry.data.title,
@@ -151,7 +165,7 @@ export async function generatePostOgImage(entry: CollectionEntry<"blog">) {
         SITE.title,
         SITE.author,
         entry.data.tags.join("/"),
-        "…",
+        ELLIPSIS,
       ].join()
     ),
   });
