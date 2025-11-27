@@ -24,8 +24,8 @@ const DARK_MODE_RENDER_OPTIONS: RenderOptions = {
 };
 
 type RehypeMermaidDualThemeOptions = {
-  lightOptions: RenderOptions;
-  darkOptions: RenderOptions;
+  light: RenderOptions;
+  dark: RenderOptions;
 };
 
 /**
@@ -121,11 +121,14 @@ function collectMermaidInstances(ast: Root): MermaidInstance[] {
 /**
  * Rehype plugin to render Mermaid diagrams for both light and dark themes.
  */
-const rehypeMermaidDualTheme: Plugin<[RehypeMermaidDualThemeOptions], Root> = ({
-  lightOptions = LIGHT_MODE_RENDER_OPTIONS,
-  darkOptions = DARK_MODE_RENDER_OPTIONS,
-}) => {
+const rehypeMermaidDualTheme: Plugin<
+  [RehypeMermaidDualThemeOptions?],
+  Root
+> = options => {
   const renderDiagrams = createMermaidRenderer();
+
+  const lightOptions = options?.light ?? LIGHT_MODE_RENDER_OPTIONS;
+  const darkOptions = options?.dark ?? DARK_MODE_RENDER_OPTIONS;
 
   return async (ast: Root) => {
     const instances = collectMermaidInstances(ast);
