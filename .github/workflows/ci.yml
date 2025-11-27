@@ -40,6 +40,9 @@ jobs:
       - name: "📦 Install dependencies"
         run: pnpm install
 
+      - name: "📦 Install playwright"
+        run: pnpm exec playwright install --with-deps
+
       - name: "🔎 Lint code"
         run: pnpm run lint
 
@@ -48,3 +51,8 @@ jobs:
 
       - name: "🚀 Build the project"
         run: pnpm run build
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: pages deploy dist --project-name=www
