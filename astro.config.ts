@@ -10,7 +10,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
-import rehypeMermaid from "rehype-mermaid";
+import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,7 +26,7 @@ export default defineConfig({
       excludeLangs: ["mermaid", "js"],
     },
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
-    rehypePlugins: [[rehypeMermaid, { strategy: "pre-mermaid" }]],
+    rehypePlugins: [rehypeMermaidDualTheme],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "catppuccin-latte", dark: "catppuccin-frappe" },
