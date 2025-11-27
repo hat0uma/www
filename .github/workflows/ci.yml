@@ -63,7 +63,18 @@ jobs:
       - name: "🚀 Build the project"
         run: pnpm run build
 
-      - uses: cloudflare/wrangler-action@v3
+      - name: Deploy to Production
+        uses: cloudflare/wrangler-action@v3
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy
+
+      - name: Upload Preview Version
+        uses: cloudflare/wrangler-action@v3
+        if: github.event_name == 'pull_request'
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: versions upload
