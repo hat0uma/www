@@ -51,6 +51,9 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
+    build: {
+      assetsInlineLimit: 64 * 1024,
+    },
   },
   image: {
     responsiveStyles: true,
