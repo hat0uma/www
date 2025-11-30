@@ -94,6 +94,9 @@
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
+
+    /* for copy button and filename */
+    @apply relative !overflow-visible;
   }
 
   html[data-theme="dark"] .astro-code {

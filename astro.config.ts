@@ -9,6 +9,7 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import { transformerCopyButton } from "./src/utils/transformers/copyButton";
 import { SITE } from "./src/config";
 import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
 import playformCompress from "@playform/compress";
@@ -36,6 +37,7 @@ export default defineConfig({
       wrap: false,
       transformers: [
         transformerFileName({ style: "v2", hideDot: false }),
+        transformerCopyButton(),
         transformerNotationHighlight(),
         transformerNotationWordHighlight(),
         transformerNotationDiff({ matchAlgorithm: "v3" }),
