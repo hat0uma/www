@@ -11,7 +11,6 @@ import {
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
 import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
-import playformInline from "@playform/inline";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,7 +19,6 @@ export default defineConfig({
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
-    playformInline(),
   ],
   markdown: {
     syntaxHighlight: {
