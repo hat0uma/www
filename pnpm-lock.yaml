@@ -80,6 +80,9 @@ importers:
       unified:
         specifier: ^11.0.5
         version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
       unist-util-visit-parents:
         specifier: ^6.0.2
         version: 6.0.2

@@ -12,6 +12,7 @@ import { transformerFileName } from "./src/utils/transformers/fileName";
 import { transformerCopyButton } from "./src/utils/transformers/copyButton";
 import { SITE } from "./src/config";
 import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
+import rehypeWrapCodeFence from "./src/utils/rehype-wrap-code-fence";
 import playformCompress from "@playform/compress";
 
 // https://astro.build/config
@@ -29,7 +30,10 @@ export default defineConfig({
       excludeLangs: ["mermaid", "js"],
     },
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
-    rehypePlugins: [rehypeMermaidDualTheme],
+    rehypePlugins: [
+      rehypeMermaidDualTheme,
+      [rehypeWrapCodeFence, ["relative", "code-fence"]],
+    ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "catppuccin-latte", dark: "catppuccin-frappe" },
