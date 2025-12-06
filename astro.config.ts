@@ -9,8 +9,11 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import { transformerCopyButton } from "./src/utils/transformers/copyButton";
 import { SITE } from "./src/config";
 import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
+import rehypeWrapCodeFence from "./src/utils/rehype-wrap-code-fence";
+import playformCompress from "@playform/compress";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,6 +22,7 @@ export default defineConfig({
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
+    playformCompress(),
   ],
   markdown: {
     syntaxHighlight: {
@@ -26,7 +30,10 @@ export default defineConfig({
       excludeLangs: ["mermaid", "js"],
     },
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
-    rehypePlugins: [rehypeMermaidDualTheme],
+    rehypePlugins: [
+      rehypeMermaidDualTheme,
+      [rehypeWrapCodeFence, ["relative", "code-fence"]],
+    ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "catppuccin-latte", dark: "catppuccin-frappe" },
@@ -34,6 +41,7 @@ export default defineConfig({
       wrap: false,
       transformers: [
         transformerFileName({ style: "v2", hideDot: false }),
+        transformerCopyButton(),
         transformerNotationHighlight(),
         transformerNotationWordHighlight(),
         transformerNotationDiff({ matchAlgorithm: "v3" }),
@@ -48,6 +56,9 @@ export default defineConfig({
     plugins: [tailwindcss()],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
+    },
+    build: {
+      assetsInlineLimit: 64 * 1024,
     },
   },
   image: {
