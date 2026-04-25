@@ -11,6 +11,7 @@ import { transformerCopyButton } from "./src/utils/transformers/copyButton";
 import { SITE } from "./src/config";
 import rehypeMermaidDualTheme from "./src/utils/rehype-mermaid-dual-theme";
 import rehypeWrapCodeFence from "./src/utils/rehype-wrap-code-fence";
+import rehypeGithubAlerts from "./src/utils/rehype-github-alerts";
 import playformCompress from "@playform/compress";
 
 // https://astro.build/config
@@ -28,6 +29,7 @@ export default defineConfig({
       excludeLangs: ["mermaid", "js"],
     },
     rehypePlugins: [
+      rehypeGithubAlerts,
       rehypeMermaidDualTheme,
       [rehypeWrapCodeFence, ["relative", "code-fence"]],
     ],

@@ -91,6 +91,66 @@
     }
   }
 
+  /* ===== GitHub-style alerts ===== */
+  .app-prose {
+    .markdown-alert {
+      @apply my-6 border-s-4 ps-4 pe-3 py-2;
+      border-color: var(--alert-color);
+    }
+
+    .markdown-alert > :first-child {
+      @apply mt-0;
+    }
+
+    .markdown-alert > :last-child {
+      @apply mb-0;
+    }
+
+    .markdown-alert-title {
+      @apply mb-2 inline-flex items-center gap-2 font-bold;
+      color: var(--alert-color);
+    }
+
+    .markdown-alert-icon {
+      @apply shrink-0;
+      fill: currentColor;
+    }
+
+    .markdown-alert-note {
+      --alert-color: #1e66f5;
+    }
+    .markdown-alert-tip {
+      --alert-color: #40a02b;
+    }
+    .markdown-alert-important {
+      --alert-color: #8839ef;
+    }
+    .markdown-alert-warning {
+      --alert-color: #df8e1d;
+    }
+    .markdown-alert-caution {
+      --alert-color: #d20f39;
+    }
+  }
+
+  html[data-theme="dark"] .app-prose {
+    .markdown-alert-note {
+      --alert-color: #8caaee;
+    }
+    .markdown-alert-tip {
+      --alert-color: #a6d189;
+    }
+    .markdown-alert-important {
+      --alert-color: #ca9ee6;
+    }
+    .markdown-alert-warning {
+      --alert-color: #e5c890;
+    }
+    .markdown-alert-caution {
+      --alert-color: #e78284;
+    }
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);
