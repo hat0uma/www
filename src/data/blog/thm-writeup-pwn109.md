@@ -1,6 +1,6 @@
 ---
 title: TryHackMe PWN101 Writeup (9) PWN109
-pubDatetime: 2026-04-26
+pubDatetime: 2026-04-25T09:00:00+09:00
 description: TryHackMe PWN101 Challenge 9のWriteup
 tags: [TryHackMe, Writeup, Pwn]
 draft: false
