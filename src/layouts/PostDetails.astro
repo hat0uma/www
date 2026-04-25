@@ -9,6 +9,7 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -41,7 +42,7 @@ const {
   hideEditPost,
 } = post.data;
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 let ogImageUrl: string | undefined;
 
@@ -94,7 +95,7 @@ const nextPost =
   <main
     id="main-content"
     class:list={[
-      "mx-auto w-full max-w-app px-4 pb-12",
+      "mx-auto w-full max-w-app px-4 pb-12 xl:relative",
       { "mt-8": !SITE.showBackButton },
     ]}
     data-pagefind-body
@@ -116,12 +117,25 @@ const nextPost =
       >
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
+
+    <div class="mt-6 xl:hidden">
+      <TableOfContents headings={headings} variant="mobile" />
+    </div>
+
     <article
       id="article"
-      class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+      class="app-prose mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
     >
       <Content />
     </article>
+
+    <aside
+      class="hidden xl:absolute xl:top-0 xl:bottom-0 xl:left-full xl:block xl:w-52 xl:ps-8"
+    >
+      <div class="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto pe-2">
+        <TableOfContents headings={headings} variant="sidebar" />
+      </div>
+    </aside>
 
     <hr class="my-8 border-dashed" />
 
@@ -235,6 +249,68 @@ const nextPost =
     }
   }
   addHeadingLinks();
+
+  /** Highlight current section in TOC
+   *  based on scroll position */
+  function setupTocHighlight() {
+    const tocLinks = document.querySelectorAll("[data-toc-link]");
+    if (tocLinks.length === 0) return;
+
+    const linkBySlug = new Map();
+    tocLinks.forEach(link => {
+      const slug = link.getAttribute("data-toc-link");
+      if (!slug) return;
+      if (!linkBySlug.has(slug)) linkBySlug.set(slug, []);
+      linkBySlug.get(slug).push(link);
+    });
+
+    const headings = Array.from(linkBySlug.keys())
+      .map(slug => document.getElementById(slug))
+      .filter(el => el !== null);
+
+    if (headings.length === 0) return;
+
+    let activeSlug = null;
+    const setActive = slug => {
+      if (slug === activeSlug) return;
+      activeSlug = slug;
+      tocLinks.forEach(link => link.classList.remove("active"));
+      const links = linkBySlug.get(slug);
+      if (links) links.forEach(link => link.classList.add("active"));
+    };
+
+    const lineY = 120; // reference line offset from top of viewport
+    let ticking = false;
+
+    const updateActive = () => {
+      ticking = false;
+      // Pick the last heading whose top is above the reference line.
+      let current = null;
+      for (const h of headings) {
+        if (h.getBoundingClientRect().top <= lineY) current = h;
+        else break;
+      }
+      // If at the very top, highlight the first heading
+      if (!current) current = headings[0];
+      // If scrolled near the bottom, highlight the last heading
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom >= document.documentElement.scrollHeight - 4) {
+        current = headings[headings.length - 1];
+      }
+      if (current) setActive(current.id);
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateActive);
+    };
+
+    document.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    updateActive();
+  }
+  setupTocHighlight();
 
   /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>

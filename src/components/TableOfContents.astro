@@ -1,0 +1,100 @@
+---
+import type { MarkdownHeading } from "astro";
+
+export interface Props {
+  headings: MarkdownHeading[];
+  variant?: "sidebar" | "mobile";
+}
+
+const { headings, variant = "sidebar" } = Astro.props;
+
+const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 3);
+
+type TocNode = MarkdownHeading & { children: TocNode[] };
+
+const tree: TocNode[] = [];
+for (const heading of tocHeadings) {
+  const node: TocNode = { ...heading, children: [] };
+  if (heading.depth === 2) {
+    tree.push(node);
+  } else {
+    const parent = tree[tree.length - 1];
+    if (parent) {
+      parent.children.push(node);
+    } else {
+      tree.push(node);
+    }
+  }
+}
+---
+
+{
+  tocHeadings.length > 0 &&
+    (variant === "sidebar" ? (
+      <nav aria-label="目次" class="toc toc-sidebar">
+        <p class="mb-2 text-sm font-bold text-foreground">目次</p>
+        <ul class="toc-list space-y-1 text-sm">
+          {tree.map(node => (
+            <li>
+              <a
+                href={`#${node.slug}`}
+                data-toc-link={node.slug}
+                class="toc-link block truncate py-0.5 text-foreground/75 hover:text-accent"
+              >
+                {node.text}
+              </a>
+              {node.children.length > 0 && (
+                <ul class="ms-3 space-y-1 border-s border-border ps-2">
+                  {node.children.map(child => (
+                    <li>
+                      <a
+                        href={`#${child.slug}`}
+                        data-toc-link={child.slug}
+                        class="toc-link block truncate py-0.5 text-xs text-foreground/65 hover:text-accent"
+                      >
+                        {child.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ) : (
+      <details class="toc toc-mobile rounded-md border border-border bg-muted/30 px-4 py-2 open:pb-3">
+        <summary class="cursor-pointer text-sm font-bold text-foreground select-none">
+          目次
+        </summary>
+        <ul class="mt-2 space-y-1 text-sm">
+          {tree.map(node => (
+            <li>
+              <a
+                href={`#${node.slug}`}
+                data-toc-link={node.slug}
+                class="toc-link block py-0.5 text-foreground/75 hover:text-accent"
+              >
+                {node.text}
+              </a>
+              {node.children.length > 0 && (
+                <ul class="ms-3 space-y-1 border-s border-border ps-2">
+                  {node.children.map(child => (
+                    <li>
+                      <a
+                        href={`#${child.slug}`}
+                        data-toc-link={child.slug}
+                        class="toc-link block py-0.5 text-xs text-foreground/65 hover:text-accent"
+                      >
+                        {child.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))
+}
