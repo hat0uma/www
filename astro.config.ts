@@ -1,8 +1,6 @@
 import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
-import remarkToc from "remark-toc";
-import remarkCollapse from "remark-collapse";
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -29,7 +27,6 @@ export default defineConfig({
       type: "shiki",
       excludeLangs: ["mermaid", "js"],
     },
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
     rehypePlugins: [
       rehypeMermaidDualTheme,
       [rehypeWrapCodeFence, ["relative", "code-fence"]],
