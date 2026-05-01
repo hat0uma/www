@@ -10,27 +10,58 @@ export interface Props extends CollectionEntry<"blog"> {
 
 const { variant = "h2", data, id, filePath } = Astro.props;
 
-const { title, description, pubDatetime, modDatetime, timezone } = data;
+const { title, description, pubDatetime, modDatetime, timezone, tags } = data;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
-  class: "text-lg font-medium decoration-dashed hover:underline",
+  class: "text-lg font-semibold leading-snug decoration-dashed hover:underline",
 };
 ---
 
-<li class="my-6">
-  <a
-    href={getPath(id, filePath)}
-    class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
-  >
+<li
+  class="group rounded-lg border border-border/70 bg-muted/20 px-3 py-2.5 transition-colors hover:border-accent/70 hover:bg-muted/30 sm:px-4 sm:py-3"
+>
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
+      <a
+        href={getPath(id, filePath)}
+        class="inline-block w-fit text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+      >
+        {
+          variant === "h2" ? (
+            <h2 {...headerProps}>{title}</h2>
+          ) : (
+            <h3 {...headerProps}>{title}</h3>
+          )
+        }
+      </a>
+      <Datetime
+        {pubDatetime}
+        {modDatetime}
+        {timezone}
+        class="text-foreground/80"
+      />
+    </div>
+
+    <p class="text-sm leading-normal text-foreground/90 sm:text-[0.95rem]">
+      {description}
+    </p>
+
     {
-      variant === "h2" ? (
-        <h2 {...headerProps}>{title}</h2>
-      ) : (
-        <h3 {...headerProps}>{title}</h3>
+      tags.length > 0 && (
+        <ul class="flex flex-wrap gap-1" aria-label="Post tags">
+          {tags.map(tag => (
+            <li>
+              <a
+                href={`/tags/${slugifyStr(tag)}/`}
+                class="inline-flex rounded border border-border/80 px-1.5 py-px text-xs leading-tight text-foreground/85 no-underline transition-colors hover:border-accent/70 hover:text-accent focus-visible:no-underline"
+              >
+                #{tag}
+              </a>
+            </li>
+          ))}
+        </ul>
       )
     }
-  </a>
-  <Datetime {pubDatetime} {modDatetime} {timezone} />
-  <p>{description}</p>
+  </div>
 </li>
